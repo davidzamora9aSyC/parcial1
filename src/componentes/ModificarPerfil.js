@@ -1,106 +1,103 @@
 import React, { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { FormattedMessage } from "react-intl";
 
 function FormularioTuto() {
-    const [formValues, setFormValues] = useState({ email: "", password: "", favClass: "1" });
-    const [validationStates, setValidatioStates] = useState({ emailState: true, passwordState: true });
-
-
-    const handleEmailChange = (e) => {
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const esCorreoValido = emailPattern.test(e.target.value);
-
-        if (!esCorreoValido) {
-            setValidatioStates({ ...validationStates, emailState: false });
-        } else {
-            setValidatioStates({ ...validationStates, emailState: true });
-        }
-
-        setFormValues({ ...formValues, email: e.target.value });
-    };
-
-
-    const handlePasswordChange = (e) => {
-        const conjuntoL = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const conjuntoN = '1234567890';
-        let cumpleL = false;
-        let cumpleN = false;
-        let cumple = false;
-        if (e.target.value.length >= 9) {
-            for (let i = 0; i < conjuntoL.length; i++) {
-                if (e.target.value.includes(conjuntoL[i])) {
-                    cumpleL = true;
-                    break;
-                }
-
-            }
-            for (let i = 0; i < conjuntoN.length; i++) {
-                if (e.target.value.includes(conjuntoN[i])) {
-                    cumpleN = true;
-                    break;
-                }
-            }
-        }
-        if (cumpleL && cumpleN){
-            cumple = true;
-        }
-
-        setValidatioStates({ ...validationStates, passwordState: cumple });
-        setFormValues({ ...formValues, password: e.target.value });
-    };
-
-
-    const handleSelectChange = ((e) => {
-        setFormValues({ ...formValues, favClass: e.target.value })
-    });
-
+    const [data, setData] = useState("cargandoo nombre");
+    const [isEditable, setIsEditable] = useState(false);
 
 
     const clickSubmit = (() => {
-        //Call fetch
-        alert(JSON.stringify(formValues))
+   
+        alert(JSON.stringify(data))
     })
 
-    const [data, setData] = useState("cargandoo nombre");
+
   
     useEffect(()=>{
         const URL = "https://raw.githubusercontent.com/davidzamora9aSyC/parcial1/master/src/profile.json";
         fetch(URL).then(data => data.json()).then(data => {
+            setIsEditable(Math.random() < 0.5);
             setData(data);
         })
     }, []);
 
+    const renderField = (value) => {
+        return isEditable ? (
+            <textarea value={value}></textarea>
+        ) : (
+            <p>{value}</p>
+        );
+    };
+
     return (
         
         <div>
-            <h1>Ejemplo de formularios!</h1>
-            <img src="https://picsum.photos/100"  />
-            
-            <Button className='m-4 ' href="/">
-                Volver
-            </Button>
+       
+       <img src="https://picsum.photos/100" alt="foto de perfil" className="rounded-circle" />
+
+      
             <Form>
                 <Form.Group className="mb-6" controlId="formBasicEmail">
-                    <div><Form.Label>Nombre de usuario</Form.Label></div>
-                    <textarea value={data.username}></textarea>
+                    <div><Form.Label>
+                        
+                    <FormattedMessage
+                      id="form.username"
+                      defaultMessage="username"
+                    />
+                    </Form.Label></div>
+                    {renderField(data.username, "form.username", "username")}
                 </Form.Group>
                 <Form.Group className="mb-6" controlId="formBasicEmail">
-                    <div><Form.Label>Nombre completo</Form.Label></div>
-                    <textarea value={data.name}></textarea>
+                    <div><Form.Label>
+                        <FormattedMessage
+                      id="form.fullName"
+                      defaultMessage="full name"
+                    />
+                    
+                    
+                    </Form.Label></div>
+                    {renderField(data.name, "form.fullName", "full name")}
                 </Form.Group>
                 <Form.Group className="mb-6" controlId="formBasicEmail">
-                    <div><Form.Label>descripcion</Form.Label></div>
-                    <textarea value={data.description}></textarea>
+                    <div><Form.Label>
+              
+                        <FormattedMessage
+                      id="form.description"
+                      defaultMessage="description"
+                    />
+                                     
+                        </Form.Label></div>
+                        {renderField(data.description, "form.description", "description")}
                 </Form.Group>
                 <Form.Group className="mb-6" controlId="formBasicEmail">
-                    <div><Form.Label>url de pagina Website</Form.Label></div>
-                    <textarea value={data.web}></textarea>
+                    <div><Form.Label>
+                        
+        
+                        <FormattedMessage
+                      id="form.websiteUrl"
+                      defaultMessage="website url"
+                    />
+                        </Form.Label></div>
+                        {renderField(data.web, "form.websiteUrl", "website url")}
                 </Form.Group>
                 
                 <Button variant="primary" onClick={clickSubmit}>
-                    Submit
+               
+                        <FormattedMessage
+                      id="form.submit"
+                      defaultMessage="submit"
+                    />
                 </Button>
+                      
+            <Button className='m-4 ' href="/">
+    
+                        <FormattedMessage
+                      id="form.goBack"
+                      defaultMessage="go back"
+                    />
+            </Button>
             </Form>
         </div>
     );

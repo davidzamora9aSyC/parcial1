@@ -4,17 +4,27 @@ import './index.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {IntlProvider} from 'react-intl';
+import enMessages from './locales/en.json';
+import esMessages from './locales/es.json';
+
+const messages = {
+  'en': enMessages,
+  'es': esMessages,
+};
+
+const language = navigator.language.split(/[-_]/)[0];
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <IntlProvider locale={language} messages={messages[language]}>
     <App />
-  </React.StrictMode>
+  </IntlProvider>, document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+

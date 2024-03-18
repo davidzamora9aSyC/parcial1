@@ -1,0 +1,18 @@
+{
+    "profile.modifyProfile": "Click on the image",
+    "profile.photos": "Photos",
+    "profile.followers": "Followers",
+    "profile.following": "Following",
+    "profile.website": "Website",
+    "profile.recentPhotos": "Recent photos",
+    "profile.showAll": "Show all",
+    "profile.detail":"Image detail",
+    "form.username": "Username",
+    "form.fullName": "Full name",
+    "form.description": "Description",
+    "form.websiteUrl": "Website URL",
+    "form.submit": "Submit",
+    "form.goBack": "Go back"
+    
+  }
+  
